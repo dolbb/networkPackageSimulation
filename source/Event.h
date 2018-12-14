@@ -20,5 +20,9 @@ struct Event
 	bool operator<(Event& e) {
 		return timeStamp < e.timeStamp;
 	}
+	
+	bool operator>(Event& e) {
+		return timeStamp > e.timeStamp;
+	}
 };
 
