@@ -18,6 +18,23 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\Event.h" />
+    <ClInclude Include="..\..\source\InputPort.h" />
+    <ClInclude Include="..\..\source\OutputPort.h" />
+    <ClInclude Include="..\..\source\Parameters.h" />
+    <ClInclude Include="..\..\source\Probability.h" />
+    <ClInclude Include="..\..\source\Results.h" />
+    <ClInclude Include="..\..\source\Switcher.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\InputPort.cpp" />
+    <ClCompile Include="..\..\source\main.cpp" />
+    <ClCompile Include="..\..\source\OutputPort.cpp" />
+    <ClCompile Include="..\..\source\Parameters.cpp" />
+    <ClCompile Include="..\..\source\Probability.cpp" />
+    <ClCompile Include="..\..\source\Switcher.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{53E22A17-0C28-4246-B9D1-BFDA93CAA9ED}</ProjectGuid>

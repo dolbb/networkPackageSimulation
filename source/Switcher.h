@@ -10,18 +10,23 @@ using std::priority_queue;
 
 class Switcher
 {
-	int inputMaxTime;
-	priority_queue<Event> events;
+	double inputMaxTime;
+	double currentRunTime;
+	priority_queue<Event,vector<Event>,greater<Event>> events;
 	vector<OutputPort> outputs;
 
+	//inner functions:
+	void handleInputEvent(Event& currentEvent);
+	void handleOutputEvent(Event& currentEvent);
+
 public:
-	//Ctor:
+	//Ctor will create all input events in the Switcher:
 	Switcher(Parameters& p);
 
 	//functions:
 	bool packageStillRunning();
-	void recieveAndDeliver(unsigned int time);
 	void run();
+	void recieveAndDeliver(unsigned int time);
 	void printResults();
 };
 

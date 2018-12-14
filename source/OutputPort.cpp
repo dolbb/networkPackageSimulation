@@ -22,49 +22,40 @@ bool OutputPort::isWorking()
 	return workInProgress;
 }
 
-void OutputPort::handleMsg()
+bool OutputPort::isQueueFull()
 {
-	if (workInProgress) {
-		if (--timeToEndCurrentSend == 0) {
-			workInProgress = false;
-			++successfulMessages;
-		}
-	}
-	
-	//check queue for waiting msgs, and start sending them:
-	if ((!workInProgress) && (messagesInQueue > 0)) {
-		workInProgress = true;
-		timeToEndCurrentSend = getTicksPoisson(miu);
-	}
+	return maxQueueSize == messagesInQueue;
+}
 
-	//add currently stored/handled msgs:
-	totalWaitingTicks	+= messagesInQueue;
-	totalHandlingTicks	+= workInProgress ? 1 : 0 ;
+bool OutputPort::isQueueEmpty()
+{
+	return messagesInQueue == 0;
+}
+
+double OutputPort::timeToEndSending()
+{
+	return getNextEventPoisson(miu);
 }
 
 void OutputPort::putMsgInQueue()
 {
-	//if possible - start sending msg:
-	if (!isWorking()) {
-		workInProgress = true;
-		timeToEndCurrentSend = getTicksPoisson(miu);
-	}
-	//if cpu busy, try to put in queue:
-	else if(messagesInQueue < maxQueueSize){
-		++messagesInQueue;
-	}
-	//if queue full, dump msg:
-	else {
-		++failedMessages;
-	}
+	++messagesInQueue;
 }
 
-unsigned long OutputPort::getTotalWaitingTicks() {
-	return totalWaitingTicks;
+void OutputPort::dumpMsg()
+{
+	failedMessages++;
 }
 
-unsigned long OutputPort::getTotalHandlingTicks() {
-	return totalHandlingTicks;
+void OutputPort::setWorkingState(bool state)
+{
+	workInProgress = state;
+}
+
+double OutputPort::takeFromQueue()
+{
+	--messagesInQueue;
+	return getNextEventPoisson(miu);
 }
 
 unsigned int OutputPort::getTotalSuccessfulMessages() {
@@ -73,4 +64,15 @@ unsigned int OutputPort::getTotalSuccessfulMessages() {
 
 unsigned int OutputPort::getTotalFailedMessages() {
 	return failedMessages;
+}
+
+//====================================================
+//			TODO: replace following functions:
+//====================================================
+unsigned long OutputPort::getTotalWaitingTicks() {
+	return totalWaitingTicks;
+}
+
+unsigned long OutputPort::getTotalHandlingTicks() {
+	return totalHandlingTicks;
 }

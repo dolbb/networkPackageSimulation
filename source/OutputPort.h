@@ -22,11 +22,18 @@ class OutputPort
 public:
 	OutputPort(double m, unsigned int qSize);
 	bool isWorking();
-	void handleMsg();
+	bool isQueueFull();
+	bool isQueueEmpty();
+	double timeToEndSending();
 	void putMsgInQueue();
-	unsigned long getTotalWaitingTicks();
-	unsigned long getTotalHandlingTicks();
+	void dumpMsg();
+	void setWorkingState(bool state);
+	double takeFromQueue(); //returns time to finish the next msg.
 	unsigned int getTotalSuccessfulMessages();
 	unsigned int getTotalFailedMessages();
+	
+	//TODO: replace following functions:
+	unsigned long getTotalWaitingTicks();
+	unsigned long getTotalHandlingTicks();
 };
 

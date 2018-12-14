@@ -2,26 +2,26 @@
 
 struct Event
 {
-	typedef enum EventType {
+	typedef enum Type{
 		INCOMING_PACKAGE,
 		FINISHED_PACKAGE
 	}; 
 	
 	double timeStamp;
 	int outputPort;
-	EventType type;
+	Type type;
 
-	Event(double time, EventType t, int port):
+	Event(double time, Type t, int port):
 		timeStamp(time),
 		type(t),
 		outputPort(port)
 	{}
 	
-	bool operator<(Event& e) {
+	bool operator<(const Event& e)const {
 		return timeStamp < e.timeStamp;
 	}
 	
-	bool operator>(Event& e) {
+	bool operator>(const Event& e)const {
 		return timeStamp > e.timeStamp;
 	}
 };

@@ -7,7 +7,7 @@ using namespace std;
 class Parameters
 {
 public:
-	unsigned int t;					//sender simulation time.
+	double t;						//sender simulation time.
 	unsigned int n;					//recieving ports' number.
 	unsigned int m;					//exiting ports' number.
 	vector<vector<double>> probs;	//probability matrix.
