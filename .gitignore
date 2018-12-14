@@ -36,3 +36,4 @@ workspace/SwitchingSimulation/Debug/SwitchingSimulation.exe
 *.ilk
 workspace/SwitchingSimulation/Debug/SwitchingSimulation.log
 *.sln
+*.ipch

@@ -10,11 +10,11 @@ struct Results
 	vector<int> successfulMsgNum;
 	int totalMsgDumpedNum;
 	vector<int> MsgDumpedNum;
-	int totalTime;
+	double totalTime;
 	long double avgWaitTime;
 	long double avgHandleTime;
 
-	Results(int t) {
+	Results(double t) {
 		totalSuccessfulMsgNum	= 0;
 		totalMsgDumpedNum		= 0;
 		totalTime				= t;

@@ -18,22 +18,14 @@ unsigned int InputPort::pickOutputIndex() {
 	return 0;
 }
 
-InputPort::InputPort(double l, vector<double>& p)
-{
+void InputPort::set(double l, vector<double>& p) {
 	lambda = l;
 	probs = p;
-	timeToPackage = getTicksPoisson(lambda);
 }
-
-int InputPort::getMessage()
+Event InputPort::getNextEvent(double& prevEventTime)
 {
-	int outIndex = -1;
-	if(--timeToPackage <= 0){
-		//calculate new time to next package:
-		timeToPackage = getTicksPoisson(lambda);
-		cout << "random got: " << timeToPackage << endl; //TODO: delete after debug
-		//pick output:
-		outIndex = pickOutputIndex();
-	}
-	return outIndex;
+	double nextMsgTime = getNextEventPoisson(lambda);	//time until next arrival.
+	prevEventTime += nextMsgTime;						//the event's time.
+	
+	return Event(prevEventTime, Event::INCOMING_PACKAGE, pickOutputIndex());
 }

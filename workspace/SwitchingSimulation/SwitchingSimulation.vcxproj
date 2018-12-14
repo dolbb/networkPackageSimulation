@@ -114,21 +114,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\source\InputPort.h" />
-    <ClInclude Include="..\..\source\OutputPort.h" />
-    <ClInclude Include="..\..\source\Parameters.h" />
-    <ClInclude Include="..\..\source\Probability.h" />
-    <ClInclude Include="..\..\source\Switcher.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\source\InputPort.cpp" />
-    <ClCompile Include="..\..\source\main.cpp" />
-    <ClCompile Include="..\..\source\OutputPort.cpp" />
-    <ClCompile Include="..\..\source\Parameters.cpp" />
-    <ClCompile Include="..\..\source\Probability.cpp" />
-    <ClCompile Include="..\..\source\Switcher.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

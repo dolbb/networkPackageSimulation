@@ -1,15 +1,26 @@
 #include "Switcher.h"
 #include "Results.h"
-
-
+#include "InputPort.h"
 
 Switcher::Switcher(Parameters& p)
 {
-	t = p.t;
+	inputMaxTime = p.t;
+	double prevEventTime;
+	InputPort inputPort;
 
-	//init inputs:
+	//put input events into the event simulation:
 	for (unsigned int i = 0; i < p.n; ++i) {
-		inputs.push_back(InputPort(p.lambdas[i], p.probs[i]));
+		prevEventTime = 0.0;	
+		inputPort.set(p.lambdas[i], p.probs[i]);
+		while (true) {
+			Event tempEvent = inputPort.getNextEvent(prevEventTime);
+			if (tempEvent.timeStamp <= inputMaxTime) {
+				events.push(tempEvent);
+			}
+			else {
+				break;
+			}
+		}
 	}
 	
 	//init outputs:
@@ -46,7 +57,8 @@ void Switcher::recieveAndDeliver(unsigned int workingTime)
 	}
 }
 
-void Switcher::printResults(unsigned int totalTime) {
+void Switcher::printResults() {
+	//TODO: update the func:
 	Results res(totalTime);
 	long totalWaitTicks = 0;
 	long totalHandleTicks = 0;

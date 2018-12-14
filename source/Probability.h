@@ -1,3 +1,3 @@
 #pragma once
 
-int getTicksPoisson(double lambda);
+double getNextEventPoisson(double lambda);

@@ -1,18 +1,18 @@
 #pragma once
 #include <vector>
+#include "Event.h"
 
-using namespace std;
+using std::vector;
 
 class InputPort
 {
 	double lambda;
 	vector<double> probs;
-	int timeToPackage;
 
 	unsigned int pickOutputIndex();
 
 public:
-	InputPort(double l, vector<double>& p);
-	int getMessage();
+	void set(double l, vector<double>& p);
+	Event getNextEvent(double& prevEventTime);
 };
 
