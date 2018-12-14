@@ -18,6 +18,21 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# my Crap:
+*.tlog
+*.obj
+*.pdb
+*.idb
+*.suo
+*.db
+
+
+
 # =========================
 # Operating System Files
 # =========================
+*.opendb
+workspace/SwitchingSimulation/Debug/SwitchingSimulation.exe
+*.ilk
+workspace/SwitchingSimulation/Debug/SwitchingSimulation.log
+*.sln
