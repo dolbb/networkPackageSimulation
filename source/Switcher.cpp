@@ -11,9 +11,13 @@ void Switcher::handleInputEvent(Event& e) {
 	//try the first of the following 3 options:
 	//1 - try to start sending the message using the right output port:
 	if (outputs[outputIndex].isWorking() == false) {
+		//get package's service time:
 		double finishSendingTime = outputs[outputIndex].timeToEndSending();
+		//add it to total service time for statistics:
 		totalServiceTime += finishSendingTime;
+		//add current event time in order to update the relative time to a simulation's absolute:
 		finishSendingTime += e.timeStamp;
+		//add the new event to queue:
 		events.push(Event(finishSendingTime, Event::FINISHED_PACKAGE, outputIndex));
 		outputs[outputIndex].setWorkingState(true);
 	}
@@ -108,6 +112,9 @@ void Switcher::run() {
 		//take current event from the event queue:
 		Event currentEvent = events.top();
 
+		//for statistics purposes we will save the data in order to calculate average wait / handle times:
+		updateStatistics(currentEvent);
+
 		//use the matching handle function for an event:
 		if (currentEvent.type == Event::INCOMING_PACKAGE) {
 			handleInputEvent(currentEvent);
@@ -115,9 +122,6 @@ void Switcher::run() {
 		else {
 			handleOutputEvent(currentEvent);
 		}
-
-		//for statistics purposes we will save the data in order to calculate average wait / handle times:
-		updateStatistics(currentEvent);
 
 		//remove the current event:
 		events.pop();
