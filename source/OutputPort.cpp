@@ -13,8 +13,7 @@ OutputPort::OutputPort(double m, unsigned int qSize)
 	timeToEndCurrentSend	= 0;
 	successfulMessages		= 0;
 	failedMessages			= 0;
-	totalWaitingTicks		= 0;
-	totalHandlingTicks		= 0;
+
 }
 
 bool OutputPort::isWorking()
@@ -66,13 +65,6 @@ unsigned int OutputPort::getTotalFailedMessages() {
 	return failedMessages;
 }
 
-//====================================================
-//			TODO: replace following functions:
-//====================================================
-unsigned long OutputPort::getTotalWaitingTicks() {
-	return totalWaitingTicks;
-}
-
-unsigned long OutputPort::getTotalHandlingTicks() {
-	return totalHandlingTicks;
+unsigned int OutputPort::getNumberOfWaitingMessages() {
+	return messagesInQueue;
 }

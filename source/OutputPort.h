@@ -16,9 +16,6 @@ class OutputPort
 	unsigned int successfulMessages;
 	unsigned int failedMessages;
 
-	unsigned long totalWaitingTicks;
-	unsigned long totalHandlingTicks;
-
 public:
 	OutputPort(double m, unsigned int qSize);
 	bool isWorking();
@@ -31,9 +28,6 @@ public:
 	double takeFromQueue(); //returns time to finish the next msg.
 	unsigned int getTotalSuccessfulMessages();
 	unsigned int getTotalFailedMessages();
-	
-	//TODO: replace following functions:
-	unsigned long getTotalWaitingTicks();
-	unsigned long getTotalHandlingTicks();
+	unsigned int getNumberOfWaitingMessages();
 };
 

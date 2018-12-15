@@ -11,15 +11,15 @@ struct Results
 	int totalMsgDumpedNum;
 	vector<int> MsgDumpedNum;
 	double totalTime;
-	long double avgWaitTime;
-	long double avgHandleTime;
+	double avgWaitTime;
+	double avgServiceTime;
 
 	Results(double t) {
 		totalSuccessfulMsgNum	= 0;
 		totalMsgDumpedNum		= 0;
 		totalTime				= t;
 		avgWaitTime				= 0.0;
-		avgHandleTime			= 0.0;
+		avgServiceTime = 0.0;
 	}
 
 	void print() {
@@ -33,7 +33,7 @@ struct Results
 		}
 		cout << totalTime << ' ';
 		cout << avgWaitTime << ' ';
-		cout << avgHandleTime << ' ' << endl;
+		cout << avgServiceTime << ' ' << endl;
 	}
 };
 

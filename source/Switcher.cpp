@@ -11,8 +11,9 @@ void Switcher::handleInputEvent(Event& e) {
 	//try the first of the following 3 options:
 	//1 - try to start sending the message using the right output port:
 	if (outputs[outputIndex].isWorking() == false) {
-		double finishSendingTime = e.timeStamp;
-		finishSendingTime += outputs[outputIndex].timeToEndSending();
+		double finishSendingTime = outputs[outputIndex].timeToEndSending();
+		totalServiceTime += finishSendingTime;
+		finishSendingTime += e.timeStamp;
 		events.push(Event(finishSendingTime, Event::FINISHED_PACKAGE, outputIndex));
 		outputs[outputIndex].setWorkingState(true);
 	}
@@ -28,15 +29,33 @@ void Switcher::handleInputEvent(Event& e) {
 
 void Switcher::handleOutputEvent(Event& e) {
 	int outputIndex = e.outputPort;
-	//if the queue isnt empty - creat a new finished even:
-	if (outputs[outputIndex].isQueueEmpty() == false) {
-		double finishSendingTime = e.timeStamp;
-		finishSendingTime += outputs[outputIndex].takeFromQueue();
-		events.push(Event(finishSendingTime, Event::FINISHED_PACKAGE, outputIndex));
-	}
-	else {
+	//if the queue is empty - creat a new finished even otherwise:
+	if (outputs[outputIndex].isQueueEmpty()) {
+		//if nothing waits for the server - set it to idle:
 		outputs[outputIndex].setWorkingState(false);
 	}
+	else {
+		//get package's service time:
+		double finishSendingTime = outputs[outputIndex].takeFromQueue();
+		//add it to total service time for statistics:
+		totalServiceTime += finishSendingTime;
+		//add current event time in order to update the relative time to a simulation's absolute:
+		finishSendingTime += e.timeStamp;
+		//add the new event to queue:
+		events.push(Event(finishSendingTime, Event::FINISHED_PACKAGE, outputIndex));
+	}
+}
+
+void Switcher::updateStatistics(Event& currentEvent){
+
+	//get the last active delta - thats the amount of time each waiting package has waited:
+	double deltaBetweenEvents = currentEvent.timeStamp - currentRunTime;
+
+	for (std::vector<OutputPort>::iterator i = outputs.begin(); (i != outputs.end()); ++i) {
+		totalWaitingTime += deltaBetweenEvents * i->getNumberOfWaitingMessages();
+	}
+	//set the simulation's runtime to the event's timestamp:
+	currentRunTime = currentEvent.timeStamp;
 }
 
 /*=====================================================================
@@ -82,42 +101,27 @@ bool Switcher::packageStillRunning()
 
 void Switcher::run() {
 	while (events.empty() == false) {
+		//take current event from the event queue:
 		Event currentEvent = events.top();
+
+		//use the matching handle function for an event:
 		if (currentEvent.type == Event::INCOMING_PACKAGE) {
 			handleInputEvent(currentEvent);
 		}
 		else {
 			handleOutputEvent(currentEvent);
 		}
-		currentRunTime = currentEvent.timeStamp;
+
+		//for statistics purposes we will save the data in order to calculate average wait / handle times:
+		updateStatistics(currentEvent);
+
+		//remove the current event:
 		events.pop();
 	}
 }
 
-/*void Switcher::recieveAndDeliver(unsigned int workingTime)
-{
-	//output ports should now iterate one clock cycle on the msg deliveries.
-	for (std::vector<OutputPort>::iterator i = outputs.begin(); (i != outputs.end()); ++i) {
-		i->handleMsg();
-	}
-
-	//get messages from input ports to the wanted output port:
-	for (std::vector<InputPort>::iterator i = inputs.begin() ; (i != inputs.end()) && (workingTime < t); ++i) {
-		//get output index or -1 if a msg wasnt recieved:
-		int msgDestination = i->getMessage();
-		if (msgDestination >= 0) {
-			//if a msg was recieved tell the right output port to put in queue or start working on it:
-			outputs[msgDestination].putMsgInQueue();
-		}
-	}
-}*/
-
-void Switcher::printResults() {
-	//TODO: update the func:
-	
+void Switcher::printResults() {	
 	Results res(currentRunTime);
-	long totalWaitTicks = 0;
-	long totalHandleTicks = 0;
 
 	for (unsigned int i = 0; i < outputs.size(); ++i) {
 		//save successful results:
@@ -127,13 +131,10 @@ void Switcher::printResults() {
 		//save dumped results:
 		res.totalMsgDumpedNum += outputs[i].getTotalFailedMessages();
 		res.MsgDumpedNum.push_back(outputs[i].getTotalFailedMessages());
-
-		totalWaitTicks += outputs[i].getTotalWaitingTicks();
-		totalHandleTicks += outputs[i].getTotalHandlingTicks();
 	}
 	
-	res.avgWaitTime = totalWaitTicks / totalTime;
-	res.avgHandleTime = totalHandleTicks / totalTime;
+	res.avgWaitTime = totalWaitingTime / res.totalSuccessfulMsgNum;
+	res.avgServiceTime = totalServiceTime / res.totalSuccessfulMsgNum;
 
 	res.print();
 }

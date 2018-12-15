@@ -2,7 +2,7 @@
 
 struct Event
 {
-	typedef enum Type{
+	enum Type{
 		INCOMING_PACKAGE,
 		FINISHED_PACKAGE
 	}; 
