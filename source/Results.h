@@ -8,8 +8,8 @@ struct Results
 {
 	int totalSuccessfulMsgNum;
 	vector<int> successfulMsgNum;
-	int totalMsgDumpedNum;
-	vector<int> MsgDumpedNum;
+	unsigned int totalMsgDumpedNum;
+	vector<unsigned int> MsgDumpedNum;
 	double totalTime;
 	double avgWaitTime;
 	double avgServiceTime;

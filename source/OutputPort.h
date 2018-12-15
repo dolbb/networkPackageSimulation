@@ -25,6 +25,7 @@ public:
 	void putMsgInQueue();
 	void dumpMsg();
 	void setWorkingState(bool state);
+	void messageDelivered();
 	double takeFromQueue(); //returns time to finish the next msg.
 	unsigned int getTotalSuccessfulMessages();
 	unsigned int getTotalFailedMessages();

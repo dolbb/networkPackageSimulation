@@ -43,12 +43,17 @@ void OutputPort::putMsgInQueue()
 
 void OutputPort::dumpMsg()
 {
-	failedMessages++;
+	++failedMessages;
 }
 
 void OutputPort::setWorkingState(bool state)
 {
 	workInProgress = state;
+}
+
+void OutputPort::messageDelivered()
+{
+	++successfulMessages;
 }
 
 double OutputPort::takeFromQueue()

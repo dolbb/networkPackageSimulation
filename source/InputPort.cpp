@@ -4,16 +4,19 @@
 #include "InputPort.h"
 #include "Probability.h"
 
+using std::cout;
+using std::endl;
+
 unsigned int InputPort::pickOutputIndex() {
-	srand(time(NULL));
 	double random0to1Num = (double)rand() / (RAND_MAX);
 	double currentSum = 0.0;
 	int currentIndex = 0;
-	for (std::vector<double>::iterator i = probs.begin(); (i != probs.end()); ++i) {
+	for (std::vector<double>::iterator i = probs.begin() ; i != probs.end() ; ++i) {
 		currentSum += *i;
 		if (currentSum >= random0to1Num) {
 			return currentIndex;
 		}
+		++currentIndex;
 	}
 	return 0;
 }

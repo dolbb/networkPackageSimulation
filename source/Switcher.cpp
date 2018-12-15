@@ -29,6 +29,10 @@ void Switcher::handleInputEvent(Event& e) {
 
 void Switcher::handleOutputEvent(Event& e) {
 	int outputIndex = e.outputPort;
+
+	//tell output that a message was successfully delivered:
+	outputs[outputIndex].messageDelivered();
+
 	//if the queue is empty - creat a new finished even otherwise:
 	if (outputs[outputIndex].isQueueEmpty()) {
 		//if nothing waits for the server - set it to idle:
