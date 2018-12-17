@@ -1,19 +1,47 @@
 #!/bin/bash
-#hwTest:
-NUM_OF_ITERATIONS=5
+
+######################################
+# Parameters:
+######################################
+prog="./SwitchingSimulation.exe"
+NUM_OF_ITERATIONS=2
+outputFile="./out"
 
 ######################################
 # simulation iterations:
 ######################################
-./SwitchingSimulation.exe 1000 1 2 0.1 0.9 200 2 10 20 180 >./spaceBasedOutput
-for ((i=1;i<NUM_OF_ITERATIONS;i++)); do
-    ./SwitchingSimulation.exe 1000 1 2 0.1 0.9 200 2 10 20 180 >>./spaceBasedOutput
+#set titles:
+echo TotalSuccess success[0] success[1] TotalFail fail[0] fail[1] RunTime AVGWait AVGService >$outputFile
+
+#iterate over simulation and print results in lines:
+for ((i=0;i<NUM_OF_ITERATIONS;i++)); do
+   $prog 1000 1 2 0.1 0.9 200 2 10 20 180 >>$outputFile
 done
+
+######################################
+# set the statistics equations:
+######################################
+N=$NUM_OF_ITERATIONS
+L=$((NUM_OF_ITERATIONS+1)) #last calculated row
+X=$((NUM_OF_ITERATIONS+2)) #AVG row
+Y=$((NUM_OF_ITERATIONS+3)) #STD row
+Z=$((NUM_OF_ITERATIONS+4)) #STD% row
+W=$((NUM_OF_ITERATIONS+5)) #enemy row
+
+echo =SUM\(A2:A$L\)/$N =SUM\(B2:B$L\)/$N =SUM\(C2:C$L\)/$N =SUM\(D2:D$L\)/$N =SUM\(E2:E$L\)/$N =SUM\(F2:F$L\)/$N =SUM\(G2:G$L\)/$N =SUM\(H2:H$L\)/$N =SUM\(I2:I$L\)/$N :AVG >>$outputFile
+echo =STDEV.S\(A2:A$L\) =STDEV.S\(B2:B$L\) =STDEV.S\(C2:C$L\) =STDEV.S\(D2:D$L\) =STDEV.S\(E2:E$L\) =STDEV.S\(F2:F$L\) =STDEV.S\(G2:G$L\) =STDEV.S\(H2:H$L\) =STDEV.S\(I2:I$L\) :STD >>$outputFile
+echo =\(A$Y\/A$X\)*100 =\(B$Y\/B$X\)*100 =\(C$Y\/C$X\)*100 =\(D$Y\/D$X\)*100 =\(E$Y\/E$X\)*100 =\(F$Y\/F$X\)*100 =\(G$Y\/G$X\)*100 =\(H$Y\/H$X\)*100 =\(I$Y\/I$X\)*100 :%STD >>$outputFile
+
+#print wanted results:
+echo 176944.9487 13328.94872 163616 23034.58974 6666.051282 16368.53846 1000.053301 0.02499471 0.008901262 :Wanted >>$outputFile
+
+#print percentage difference:
+echo  >>$outputFile
+echo %DIFF: >>$outputFile
+echo =\(A$X\/A$W\)*100-100 =\(B$X\/B$W\)*100-100 =\(C$X\/C$W\)*100-100 =\(D$X\/D$W\)*100-100 =\(E$X\/E$W\)*100-100 =\(F$X\/F$W\)*100-100 =\(G$X\/G$W\)*100-100 =\(H$X\/H$W\)*100-100 =\(I$X\/I$W\)*100-100 >>$outputFile
 
 ######################################
 # convert text to .csv file:
 ######################################
-tr ' ' ',' <./spaceBasedOutput >./commaBaseOutput.csv
-
-#other tests:
-#./SwitchingSimulation.exe 100 2 3 0.11 0.22 0.67 0.21 0.22 0.57 100 200 10 15 20 10 20 30
+tr ' ' ',' <$outputFile >$outputFile.csv
+rm $outputFile
