@@ -33,7 +33,7 @@ bool OutputPort::isQueueEmpty()
 
 double OutputPort::timeToEndSending()
 {
-	return getNextEventPoisson(miu);
+	return getNextEventExp(miu);
 }
 
 void OutputPort::putMsgInQueue()
@@ -59,7 +59,7 @@ void OutputPort::messageDelivered()
 double OutputPort::takeFromQueue()
 {
 	--messagesInQueue;
-	return getNextEventPoisson(miu);
+	return timeToEndSending();
 }
 
 unsigned int OutputPort::getTotalSuccessfulMessages() {
