@@ -8,8 +8,8 @@ struct Event
 	}; 
 	
 	double timeStamp;
-	int outputPort;
 	Type type;
+	int outputPort;
 
 	Event(double time, Type t, int port):
 		timeStamp(time),

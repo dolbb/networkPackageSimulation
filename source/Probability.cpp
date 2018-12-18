@@ -11,7 +11,7 @@ double getNextEventPoisson(double lambda){
 
 double getNextEventExp(double miu){
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-	std::default_random_engine generator(seed);
+	std::mt19937 generator(seed);
 	std::exponential_distribution<double> distribution(miu);
 	return distribution(generator);
 }
