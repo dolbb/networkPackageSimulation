@@ -27,7 +27,7 @@ void InputPort::set(double l, vector<double>& p) {
 }
 Event InputPort::getNextEvent(double& prevEventTime)
 {
-	double nextMsgTime = getNextEventPoisson(lambda);	//time until next arrival.
+	double nextMsgTime = getNextEventExp(lambda);		//time until next arrival.
 	prevEventTime += nextMsgTime;						//the event's time.
 	
 	return Event(prevEventTime, Event::INCOMING_PACKAGE, pickOutputIndex());
