@@ -4,7 +4,7 @@
 # Parameters:
 ######################################
 prog="./SwitchingSimulation.exe"
-NUM_OF_ITERATIONS=2
+NUM_OF_ITERATIONS=5
 outputFile="./out"
 
 ######################################
@@ -28,12 +28,12 @@ Y=$((NUM_OF_ITERATIONS+3)) #STD row
 Z=$((NUM_OF_ITERATIONS+4)) #STD% row
 W=$((NUM_OF_ITERATIONS+5)) #enemy row
 
-echo =SUM\(A2:A$L\)/$N =SUM\(B2:B$L\)/$N =SUM\(C2:C$L\)/$N =SUM\(D2:D$L\)/$N =SUM\(E2:E$L\)/$N =SUM\(F2:F$L\)/$N =SUM\(G2:G$L\)/$N =SUM\(H2:H$L\)/$N =SUM\(I2:I$L\)/$N :AVG >>$outputFile
+echo =SUM\(A2:A$L\)/$N =SUM\(B2:B$L\)/$N =SUM\(C2:C$L\)/$N =SUM\(D2:D$L\)/$N =SUM\(E2:E$L\)/$N =SUM\(F2:F$L\)/$N =SUM\(G2:G$L\)/$N =SUM\(H2:H$L\)/$N =SUM\(I2:I$L\)/$N :AVG totalMessages: =A$X+D$X >>$outputFile
 echo =STDEV.S\(A2:A$L\) =STDEV.S\(B2:B$L\) =STDEV.S\(C2:C$L\) =STDEV.S\(D2:D$L\) =STDEV.S\(E2:E$L\) =STDEV.S\(F2:F$L\) =STDEV.S\(G2:G$L\) =STDEV.S\(H2:H$L\) =STDEV.S\(I2:I$L\) :STD >>$outputFile
 echo =\(A$Y\/A$X\)*100 =\(B$Y\/B$X\)*100 =\(C$Y\/C$X\)*100 =\(D$Y\/D$X\)*100 =\(E$Y\/E$X\)*100 =\(F$Y\/F$X\)*100 =\(G$Y\/G$X\)*100 =\(H$Y\/H$X\)*100 =\(I$Y\/I$X\)*100 :%STD >>$outputFile
 
 #print wanted results:
-echo 176944.9487 13328.94872 163616 23034.58974 6666.051282 16368.53846 1000.053301 0.02499471 0.008901262 :Wanted >>$outputFile
+echo 176944.9487 13328.94872 163616 23034.58974 6666.051282 16368.53846 1000.053301 0.02499471 0.008901262 :Wanted  totalMessages: =A$W+D$W >>$outputFile
 
 #print percentage difference:
 echo  >>$outputFile
