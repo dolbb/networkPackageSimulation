@@ -7,7 +7,7 @@
 OutputPort::OutputPort(double m, unsigned int qSize)
 {
 	miu						= m;
-	maxQueueSize			= qSize;
+	maxQueueSize			= qSize-1;
 	workInProgress			= false;
 	messagesInQueue			= 0;
 	timeToEndCurrentSend	= 0;
