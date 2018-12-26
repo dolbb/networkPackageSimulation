@@ -1,0 +1,66 @@
+#!/bin/bash
+
+######################################
+# Parameters:
+######################################
+prog="./simulator"
+NUM_OF_ITERATIONS=10
+outputFile="./dryOut"
+
+######################################
+# simulation iterations:
+######################################
+#set titles:
+echo TotalSuccess success[0] TotalFail fail[0] RunTime AVGWait AVGService >$outputFile
+
+#iterate over simulation and print results in lines:
+echo running: 10
+echo running: 10 >>$outputFile
+for ((i=0;i<NUM_OF_ITERATIONS;i++)); do
+   $prog 10 1 1 1 9 1000 12 >>$outputFile
+done
+echo running: 100
+echo running: 100 >>$outputFile
+for ((i=0;i<NUM_OF_ITERATIONS;i++)); do
+   $prog 100 1 1 1 9 1000 12 >>$outputFile
+done
+
+echo running: 500
+echo running: 500 >>$outputFile
+for ((i=0;i<NUM_OF_ITERATIONS;i++)); do
+   $prog 500 1 1 1 9 1000 12 >>$outputFile
+done
+
+echo running: 1000
+echo running: 1000 >>$outputFile
+for ((i=0;i<NUM_OF_ITERATIONS;i++)); do
+   $prog 1000 1 1 1 9 1000 12 >>$outputFile
+done
+
+echo running: 1500
+echo running: 1500 >>$outputFile
+for ((i=0;i<NUM_OF_ITERATIONS;i++)); do
+   $prog 1500 1 1 1 9 1000 12 >>$outputFile
+done
+
+echo running: 2000
+echo running: 2000 >>$outputFile
+for ((i=0;i<NUM_OF_ITERATIONS;i++)); do
+   $prog 2000 1 1 1 9 1000 12 >>$outputFile
+done
+
+echo running: 2500
+echo running: 2500 >>$outputFile
+for ((i=0;i<NUM_OF_ITERATIONS;i++)); do
+   $prog 2500 1 1 1 9 1000 12 >>$outputFile
+done
+
+######################################
+# set the statistics equations:
+######################################
+
+######################################
+# convert text to .csv file:
+######################################
+tr ' ' ',' <$outputFile >$outputFile.csv
+rm $outputFile

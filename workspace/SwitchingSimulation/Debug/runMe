@@ -4,7 +4,7 @@
 # Parameters:
 ######################################
 prog="./SwitchingSimulation.exe"
-NUM_OF_ITERATIONS=5
+NUM_OF_ITERATIONS=40
 outputFile="./out"
 
 ######################################
